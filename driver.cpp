@@ -3,6 +3,7 @@
 #include <ctime>
 #include <stdexcept>
 #include "QuickFind.h"
+#include "QuickUnion.h"
 
 int main(int argc, char const *argv[])
 {
@@ -17,6 +18,11 @@ int main(int argc, char const *argv[])
         UF.Union(4,8);
         std::cout << "Is " << (UF.IsConnected(3,8)?"":"NOT ") << "Connected" << std::endl;
 
+        QuickUnionUF UF2 = QuickUnionUF(N);
+        //UF.PrintID();
+        UF2.Union(4,3);
+        UF2.Union(4,8);
+        std::cout << "Is " << (UF2.IsConnected(3,8)?"":"NOT ") << "Connected" << std::endl;
     }
     catch (...)
     {
