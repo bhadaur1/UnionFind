@@ -15,6 +15,7 @@ QuickUnionUF::QuickUnionUF(int const &N) {
 
 QuickUnionUF::~QuickUnionUF() {
     delete m_id;
+    delete m_sz;
 }
 
 void QuickUnionUF::PrintID() {

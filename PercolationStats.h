@@ -1,5 +1,3 @@
-#pragma once
-
 #include <string>
 #include <vector>
 #include <cmath>
@@ -16,18 +14,16 @@ class PercolationStats
 {
 
 private:
-	std::vector<double> ratio;
+	std::vector<double> m_ratio;
 
 public:
 	PercolationStats(int n, int trials); // perform trials independent experiments on an n-by-n grid
 
-	virtual double mean(); // sample mean of percolation threshold
+	double mean(); // sample mean of percolation threshold
 
-	virtual double stddev(); // sample standard deviation of percolation threshold
+	double stddev(); // sample standard deviation of percolation threshold
 
-	virtual double confidenceLo(); // low  endpoint of 95% confidence interval
+	double confidenceLo(); // low  endpoint of 95% confidence interval
 
-	virtual double confidenceHi(); // high endpoint of 95% confidence interval
-
-	static void main(std::vector<std::wstring> &args);
+	double confidenceHi(); // high endpoint of 95% confidence interval
 };

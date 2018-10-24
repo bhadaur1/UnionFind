@@ -1,9 +1,3 @@
-//----------------------------------------------------------------------------------------
-//	Copyright © 2007 - 2018 Tangible Software Solutions, Inc.
-//	This class can be used by anyone provided that the copyright notice remains intact.
-//
-//	This class includes methods to convert multidimensional arrays to C++ vectors.
-//----------------------------------------------------------------------------------------
 class RectangularVectors
 {
 public:

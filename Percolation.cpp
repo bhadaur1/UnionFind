@@ -1,22 +1,18 @@
 #include "Percolation.h"
 
-using edu::princeton::cs::algs4::WeightedQuickUnionUF;
-
 Percolation::Percolation(int n)
 {
 	if (n > 0)
 	{
 		// grid array automatically initialized to zeros
-//JAVA TO C++ CONVERTER NOTE: The following call to the 'RectangularVectors' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: grid = new int[n + 1][n + 1];
 		grid = RectangularVectors::ReturnRectangularIntVector(n + 1, n + 1); // (n+1) due to not dealing with zero indices
 		nOpen = 0; // no open sites to begin with
-		objWQF = new WeightedQuickUnionUF((n + 1) * (n + 1));
+		objWQF = new QuickUnionUF((n + 1) * (n + 1));
 		// Virtual site [0][0] reserved for top,  [0][1] reserved for bottom
 		for (int col = 1; col < grid.size(); col++)
 		{
-			objWQF->union_Renamed(0, grid.size() + col);
-			objWQF->union_Renamed(1, grid.size() * (grid.size() - 1) + col);
+			objWQF->Union(0, grid.size() + col);
+			objWQF->Union(1, grid.size() * (grid.size() - 1) + col);
 		}
 	}
 	else
@@ -46,22 +42,22 @@ void Percolation::open(int row, int col)
 
 			if ((col < grid.size() - 1) && isOpen(row, col + 1)) // right neighbor
 			{
-				objWQF->union_Renamed(sId, rId);
+				objWQF->Union(sId, rId);
 			}
 
 			if ((col > 1) && isOpen(row, col - 1)) // left neighbor
 			{
-				objWQF->union_Renamed(sId, lId);
+				objWQF->Union(sId, lId);
 			}
 
 			if ((row < grid.size() - 1) && isOpen(row + 1, col)) // top neighbor
 			{
-				objWQF->union_Renamed(sId, tId);
+				objWQF->Union(sId, tId);
 			}
 
 			if ((row > 1) && isOpen(row - 1, col)) // bot neighbor
 			{
-				objWQF->union_Renamed(sId, bId);
+				objWQF->Union(sId, bId);
 			}
 		}
 	}
@@ -87,7 +83,7 @@ bool Percolation::isFull(int row, int col)
 	}
 	else
 	{
-		return (isOpen(row, col) && objWQF->connected(0, grid.size() * row + col));
+		return (isOpen(row, col) && objWQF->IsConnected(0, grid.size() * row + col));
 	}
 }
 
@@ -98,10 +94,5 @@ int Percolation::numberOfOpenSites()
 
 bool Percolation::percolates()
 {
-	return (objWQF->connected(0, 1));
-}
-
-void Percolation::main(std::vector<std::wstring> &args)
-{
-
+	return (objWQF->IsConnected(0, 1));
 }
