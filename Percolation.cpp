@@ -1,4 +1,5 @@
 #include "Percolation.h"
+#include "RectangularVectors.h"
 
 Percolation::Percolation(int n)
 {

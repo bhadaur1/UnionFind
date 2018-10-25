@@ -1,11 +1,9 @@
 #include "PercolationStats.h"
 #include "Percolation.h"
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_int_distribution.hpp>
-#include <boost/math/distributions.hpp>
+#include <random>
 #include <limits>
+#include <algorithm>
 
-boost::random::mt19937 gen;
 
 PercolationStats::PercolationStats(int n, int trials)
 {
@@ -15,7 +13,9 @@ PercolationStats::PercolationStats(int n, int trials)
     }
     else
     {
-        boost::random::uniform_int_distribution<> dist(1, n + 1);
+        std::random_device rd;  //Will be used to obtain a seed for the random number engine
+        std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+        std::uniform_int_distribution<> dist(1, n); // Generates a closed interval
 
         m_ratio = std::vector<double>(trials);
 
@@ -24,7 +24,7 @@ PercolationStats::PercolationStats(int n, int trials)
             Percolation *perObj = new Percolation(n);
             while (!perObj->percolates())
             {
-                perObj->open(gen(dist), gen(dist));
+                perObj->open(dist(gen), dist(gen));
             }
             m_ratio[t] = static_cast<double>(perObj->numberOfOpenSites()) / static_cast<double>(n * n);
 
@@ -68,9 +68,9 @@ double PercolationStats::confidenceHi()
 int main(int argc, char** argv)
 {
     PercolationStats *PP = new PercolationStats(std::stoi(argv[1]), std::stoi(argv[2]));
-    printf(L"mean                    = %f\n", PP->mean());
-    printf(L"stddev                  = %f\n", PP->stddev());
-    printf(L"95%% confidence interval = [%f,%f]\n", PP->confidenceLo(), PP->confidenceHi());
-    delete  PercolationStats;
+    printf("mean                    = %f\n", PP->mean());
+    printf("stddev                  = %f\n", PP->stddev());
+    printf("95%% confidence interval = [%f,%f]\n", PP->confidenceLo(), PP->confidenceHi());
+    delete  PP;
     return 0;
 }
